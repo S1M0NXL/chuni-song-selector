@@ -1,0 +1,26 @@
+{
+  "name": "chuni-song-selector",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/backend/main.ts",
+    "dev:sample": "tsx src/backend/main.ts \"点歌 玩具狂奏曲 紫\"",
+    "danmaku": "tsx src/backend/bilibili/print-danmaku.ts",
+    "inspect:command": "tsx src/backend/commands/inspect-song-request.ts",
+    "import:songs": "tsx src/backend/songs/import-songs.ts",
+    "search:song": "tsx src/backend/songs/search-song.ts",
+    "add:alias": "tsx src/backend/songs/add-alias.ts",
+    "delete:alias": "tsx src/backend/songs/delete-alias.ts",
+    "dev:web": "vite --host 0.0.0.0",
+    "build": "tsc -p tsconfig.node.json && vite build",
+    "typecheck": "tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
+  }
+}
