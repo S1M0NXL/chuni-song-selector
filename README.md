@@ -231,10 +231,11 @@ chuni-song-selector/
 
 前端模块：
 
-- `src/web/main.ts`：overlay 页面入口。
+- `src/web/main.ts`：网页入口，默认渲染主页；带 `?overlay=1` 时渲染点歌队列页，带 `?ws=...` 时渲染后端事件 overlay。
 - `src/web/overlay-store.ts`：接收后端事件并维护页面状态。
 - `src/web/overlay-renderer.ts`：渲染当前点歌、候选列表和错误状态。
-- `src/web/styles.css`：OBS 叠加层样式。
+- `src/web/styles.css`：主页和 OBS 叠加层样式。
+- `public/images/`：主页使用的静态图片资源目录，构建时会原样复制到网页输出目录。
 
 安装依赖后可以使用：
 
@@ -296,7 +297,39 @@ npm run danmaku -- 123456 --debug
 
 调试模式会把收到的包类型和业务 `cmd` 写到 stderr。正常收到点歌弹幕时应该看到 `收到业务消息: DANMU_MSG`，随后 stdout 会打印匹配到的曲目信息。
 
-网页 overlay 默认展示一条示例结果；后续接入后端推送后，可以通过查询参数指定 WebSocket 地址：
+网页前端默认打开主页：
+
+```text
+http://localhost:5173/
+```
+
+如果需要人工修改主页内容：
+
+- 修改标题、作者、链接等页面文本：编辑 `src/web/main.ts`。
+- 修改背景图、布局、字号、颜色、页脚位置：编辑 `src/web/styles.css`。
+- 替换主页图片：把新图片放到 `public/images/`，再在 `src/web/main.ts` 中更新 `EIRENE_IMAGE_URL`。
+
+本地预览网页：
+
+```bash
+npm run dev:web
+```
+
+构建可部署的静态网页：
+
+```bash
+npm run build
+```
+
+构建完成后，网页产物位于 `dist/web/`。部署时把 `dist/web/` 目录中的内容上传到任意静态网页服务即可，例如 Nginx、GitHub Pages、Netlify、Vercel 或 Cloudflare Pages。如果使用 OBS 浏览器源在本机预览，可以直接使用 `npm run dev:web` 提供的本地地址。
+
+网页点歌器队列页可通过参数打开：
+
+```text
+http://localhost:5173/?overlay=1
+```
+
+后续接入后端推送后，可以通过查询参数指定 WebSocket 地址：
 
 ```text
 http://localhost:5173/?ws=ws://localhost:17890
